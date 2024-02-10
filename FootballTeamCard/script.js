@@ -183,7 +183,7 @@ worldCupYear.textContent = year;
 headCoach.textContent = coachName;
 
 const setPlayerCards = (arr = players) => {
-    playerCards.innerHTML += arr.map(({name, position, number, isCaptain, nickname})=>{
+    playerCards.innerHTML += arr.map(({name, position, number, isCaptain, nickname})=>
         `<div class="player-card">
         <h2>${name} ${isCaptain?"(Captain)":""}</h2>
 
@@ -191,16 +191,17 @@ const setPlayerCards = (arr = players) => {
             <p>Number: ${number}</p>
             <p>Nickname: ${nickname? nickname: "N/A"}</p>
         </div>`
-    }).join("");
+    ).join("");
     
 };
 
 
 playersDropdownList.addEventListener("change", (e) => {
+    
     playerCards.innerHTML = "";
     switch(e.target.value){
        case "nickname":
-        setPlayerCards(players.filter((player) => player.nickname != null));
+        setPlayerCards(players.filter((player) => player.nickname !== null));
         break;
        case "forward":
         setPlayerCards(players.filter((player) => player.position === "forward"));
@@ -216,6 +217,7 @@ playersDropdownList.addEventListener("change", (e) => {
             break;
         default:
             setPlayerCards();
+            break;
     }
 
 });
