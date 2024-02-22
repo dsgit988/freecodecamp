@@ -88,7 +88,7 @@ const renderSongs = (array) => {
     const songsHTML = array.map((song) => {
         return `
                 <li id="song-${song.id}" class="playlist-song">
-                    <button class="playlist-song-info">
+                    <button onclick="playSong(${song.id})" class="playlist-song-info">
                         <span class="playlist-song-title">${song.title}</span>
                         <span class="playlist-song-artist">${song.artist}</span>
                         <span class="playlist-song-duration">${song.duration}</span>
@@ -126,6 +126,54 @@ const playSong = (id) => {
     userData.currentSong = song;
     playButton.classList.add("playing");
     audio.play();
+};
+
+playButton.addEventListener("click", ()=>{
+    if (userData?.currentSong === null){
+        playSong(userData?.songs[0].id);
+    }else{
+        playSong(userData?.currentSong.id);
+    }
+});
+
+const pauseSong = () => {
+    userData.songCurrentTime = audio.currentTime;
+    playButton.classList.remove("playing");
+    audio.pause();
+};
+
+pauseButton.addEventListener("click", pauseSong);
+
+const getCurrentSongIndex = () => {
+    return userData?.songs.indexOf(userData?.currentSong);
+};
+
+const playNextSong = () => {
+    if (userData?.currentSong === null){
+        playSong(userData?.songs[0].id);
+    }else{
+        const currentSongIndex = getCurrentSongIndex();
+        const nextSong = userData?.songs[currentSongIndex + 1];
+        playSong(nextSong.id);
+    }
+};
+
+nextButton.addEventListener("click", playNextSong);
+
+const playPreviousSong = () => {
+    if (userData?.currentSong === null){
+        return;
+    }else{
+        const currentSongIndex = getCurrentSongIndex();
+        const previousSong = userData?.songs[currentSongIndex - 1];
+        playSong(previousSong.id);
+    }
+};
+
+previousButton.addEventListener("click", playPreviousSong);
+
+const highlightCurrentSong = () => {
+    const playlistSongElements = document.querySelectorAll(".playlist-song");
 };
 
 
